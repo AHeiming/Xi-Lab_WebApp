@@ -1,4 +1,16 @@
 .leaflet-container {
-    width: 100vw;
-    height: 100vh;
+  width: 100vw;
+  height: 100vh;
+}
+
+.leaflet-popup-content p {
+  margin: 0;
+  padding: 0;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10000;
 }

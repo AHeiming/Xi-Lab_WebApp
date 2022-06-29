@@ -8,8 +8,8 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { Marker } from "./types/types";
-import { liquidUnitConverter } from "./unitConverter";
+import { Marker } from "../types/types";
+import { liquidUnitConverter } from "../utils/unitConverter";
 
 const CustomMarker = () => {
   const theme = useTheme();

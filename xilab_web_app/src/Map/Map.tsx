@@ -7,8 +7,8 @@ import "./Map.css";
 
 const Map = () => {
   const { mode } = useContext(ColorModeContext);
-  const [lat, setLat] = useState(51.53313851666875);
-  const [lng, setLng] = useState(6.932514987553791);
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const DarkMapContainer = styled(MapContainer)(() => ({
     "& .leaflet-tile": {
@@ -38,6 +38,8 @@ const Map = () => {
             setLoaded(true);
           });
         } else if (result.state === "denied") {
+          setLat(51.53313851666875);
+          setLng(6.932514987553791);
           setLoaded(true);
         } else if (result.state === "prompt") {
           navigator.geolocation.getCurrentPosition(
@@ -48,12 +50,16 @@ const Map = () => {
             },
             (error) => {
               console.log(error);
+              setLat(51.53313851666875);
+              setLng(6.932514987553791);
               setLoaded(true);
             }
           );
         }
       });
     } else {
+      setLat(51.53313851666875);
+      setLng(6.932514987553791);
       setLoaded(true);
     }
   };
@@ -85,7 +91,9 @@ const Map = () => {
       )}
     </>
   ) : (
-    <div>Loading...</div>
+    <MapContainer center={[lat, lng]} zoom={13} scrollWheelZoom={true}>
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+    </MapContainer>
   );
 };
 

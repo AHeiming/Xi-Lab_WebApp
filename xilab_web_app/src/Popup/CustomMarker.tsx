@@ -8,11 +8,13 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import { useColorModeContext } from "../contexts/ThemeContext";
 import { Marker } from "../types/types";
 import { liquidUnitConverter } from "../utils/unitConverter";
 
 const CustomMarker = () => {
   const theme = useTheme();
+  const { mode } = useColorModeContext();
 
   const BatteryLevelBar = styled(LinearProgress)(({ theme }) => ({
     margin: 0,
@@ -20,11 +22,11 @@ const CustomMarker = () => {
     height: 10,
     borderRadius: 5,
     [`&.${linearProgressClasses.colorPrimary}`]: {
-      backgroundColor: theme.palette.grey[200],
+      backgroundColor: theme.palette.grey[mode === "light" ? 200 : 800],
     },
     [`& .${linearProgressClasses.bar}`]: {
       borderRadius: 5,
-      backgroundColor: "#5BC236",
+      backgroundColor: mode === "light" ? "#5BC236" : "#5BC236",
     },
   }));
 
@@ -32,11 +34,11 @@ const CustomMarker = () => {
     height: 10,
     borderRadius: 5,
     [`&.${linearProgressClasses.colorPrimary}`]: {
-      backgroundColor: theme.palette.grey[200],
+      backgroundColor: theme.palette.grey[mode === "light" ? 200 : 800],
     },
     [`& .${linearProgressClasses.bar}`]: {
       borderRadius: 5,
-      backgroundColor: "#5abcd8",
+      backgroundColor: mode === "light" ? "#5abcd8" : "#308fe8",
     },
   }));
 

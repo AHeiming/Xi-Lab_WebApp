@@ -9,10 +9,14 @@ import {
   useTheme,
 } from "@mui/material";
 import { useColorModeContext } from "../contexts/ThemeContext";
-import { Marker } from "../types/types";
+import { Device, Marker } from "../types/types";
 import { liquidUnitConverter } from "../utils/unitConverter";
 
-const CustomMarker = () => {
+export interface ICustomMarker {
+  device: Device;
+}
+
+const CustomMarker = (props: ICustomMarker) => {
   const theme = useTheme();
   const { mode } = useColorModeContext();
 
@@ -46,23 +50,6 @@ const CustomMarker = () => {
     color: theme.palette.text.primary,
   }));
 
-  const example: Marker = {
-    device: {
-      battery: 75,
-      id: "5aa067b0-c21e-4f62-a7fc-aa501380b404",
-      name: "HRW FabLab",
-    },
-    location: {
-      latitude: 51.533143,
-      longitude: 6.932462,
-    },
-    water: {
-      min: 250,
-      max: 5000,
-      current: 2500,
-    },
-  };
-
   const currentWaterLevelInPercentage = (
     min: number,
     max: number,
@@ -74,17 +61,29 @@ const CustomMarker = () => {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ width: 300 }}>
-        <Box mb={3}>
-          <ThemeTypography variant="h5">{example.device.name}</ThemeTypography>
+        <Box mb={2}>
+          <ThemeTypography variant="h5">
+            {props.device.deviceData.name}
+          </ThemeTypography>
         </Box>
+        {localStorage.getItem("token") ? (
+          <Box mb={3}>
+            <ThemeTypography fontWeight="bold">UUID</ThemeTypography>
+            <ThemeTypography fontSize={"1.2em"}>
+              {props.device.deviceData.uuid}
+            </ThemeTypography>
+          </Box>
+        ) : (
+          <></>
+        )}
         <Box mb={3}>
           <ThemeTypography fontWeight="bold">Battery</ThemeTypography>
           <BatteryLevelBar
             variant="determinate"
-            value={example.device.battery}
+            value={props.device.deviceData.battery}
           ></BatteryLevelBar>
           <ThemeTypography fontStyle="italic">
-            Current: {example.device.battery} %
+            Current: {props.device.deviceData.battery} %
           </ThemeTypography>
         </Box>
         <Box mb={3}>
@@ -94,13 +93,17 @@ const CustomMarker = () => {
               <ThemeTypography>Latitude:</ThemeTypography>
             </Grid>
             <Grid item xs={8}>
-              <ThemeTypography>{example.location.latitude}°</ThemeTypography>
+              <ThemeTypography>
+                {props.device.locationData.latitude}°
+              </ThemeTypography>
             </Grid>
             <Grid item xs={4}>
               <ThemeTypography>Longitude:</ThemeTypography>
             </Grid>
             <Grid item xs={8}>
-              <ThemeTypography> {example.location.longitude}°</ThemeTypography>
+              <ThemeTypography>
+                {props.device.locationData.longitude}°
+              </ThemeTypography>
             </Grid>
           </Grid>
         </Box>
@@ -108,25 +111,25 @@ const CustomMarker = () => {
         <WaterLevelBar
           variant="determinate"
           value={currentWaterLevelInPercentage(
-            example.water.min,
-            example.water.max,
-            example.water.current
+            props.device.waterSensorData.min,
+            props.device.waterSensorData.max,
+            props.device.waterSensorData.current
           )}
         ></WaterLevelBar>
         <Grid container justifyContent="space-between">
           <Grid item>
             <ThemeTypography>
-              Min: {liquidUnitConverter(example.water.min)}
+              Min: {liquidUnitConverter(props.device.waterSensorData.min)}
             </ThemeTypography>
           </Grid>
           <Grid item>
             <ThemeTypography>
-              Max: {liquidUnitConverter(example.water.max)}
+              Max: {liquidUnitConverter(props.device.waterSensorData.max)}
             </ThemeTypography>
           </Grid>
         </Grid>
         <ThemeTypography>
-          Current: {liquidUnitConverter(example.water.current)}
+          Current: {liquidUnitConverter(props.device.waterSensorData.current)}
         </ThemeTypography>
       </Box>
     </ThemeProvider>

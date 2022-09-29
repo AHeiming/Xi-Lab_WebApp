@@ -1,12 +1,16 @@
 export type Marker = {
   device: Device;
-  water: Water;
-  location: Location;
 };
 
-type Device = {
+export type Device = {
+  deviceData: DeviceData;
+  locationData: Location;
+  waterSensorData: Water;
+};
+
+type DeviceData = {
   name: string;
-  id: string;
+  uuid: string;
   battery: number;
 };
 

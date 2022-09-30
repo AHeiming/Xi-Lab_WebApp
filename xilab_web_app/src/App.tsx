@@ -1,9 +1,9 @@
 import "./App.css";
-import Map from "./Map/Map";
+import Map from "./components/Map/Map";
 import { ColorModeProvider } from "./contexts/ThemeContext";
 import { DeviceProvider } from "./contexts/DeviceContext";
-import Header from "./Header/Header";
 import { UserProvider } from "./contexts/UserContext";
+import Header from "./components/Header/Header";
 
 function App() {
   return (

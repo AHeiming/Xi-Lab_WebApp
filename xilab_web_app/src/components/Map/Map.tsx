@@ -1,15 +1,13 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useState, useEffect, useContext } from "react";
-import CustomMarker from "../Popup/CustomMarker";
-import { ColorModeContext } from "../contexts/ThemeContext";
+import DeviceMarker from "../DeviceMapMarker/CustomMarker";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { styled } from "@mui/system";
 import "./Map.css";
-import ApiService from "../api/api";
-import { Device } from "../types/types";
 import Fab from "@mui/material/Fab";
 import FilterDialog from "./FilterDialog";
-import { useDevices } from "../contexts/DeviceContext";
+import { ColorModeContext } from "../../contexts/ThemeContext";
+import { useDevices } from "../../contexts/DeviceContext";
 
 const Map = () => {
   const {
@@ -23,7 +21,6 @@ const Map = () => {
   const [lng, setLng] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [openFilterDialog, setOpenFilterDialog] = useState(false);
-  const [mapZoom, setMapZoom] = useState(13);
 
   const DarkMapContainer = styled(MapContainer)(() => ({
     "& .leaflet-tile": {
@@ -135,7 +132,7 @@ const Map = () => {
               ]}
             >
               <ColorModePopup>
-                <CustomMarker device={device} />
+                <DeviceMarker device={device} />
               </ColorModePopup>
             </Marker>
           ))}
@@ -152,7 +149,7 @@ const Map = () => {
               ]}
             >
               <ColorModePopup>
-                <CustomMarker device={device} />
+                <DeviceMarker device={device} />
               </ColorModePopup>
             </Marker>
           ))}

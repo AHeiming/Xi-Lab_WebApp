@@ -12,8 +12,8 @@ import {
 } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import React, { useState } from "react";
-import ApiService from "../api/api";
-import { useDevices } from "../contexts/DeviceContext";
+import ApiService from "../../../api/api";
+import { useDevices } from "../../../contexts/DeviceContext";
 
 export interface ICreateDeviceDialogProps {
   open: boolean;
@@ -45,7 +45,7 @@ const CreateDeviceDialog = (props: ICreateDeviceDialogProps) => {
         minCapacity,
         maxCapacity
       );
-      setErrorText("Something went wrong creating the device");
+      setErrorText(error);
       setShowError(!success);
       if (success) {
         refreshDevices();

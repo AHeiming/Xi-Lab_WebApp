@@ -1,6 +1,6 @@
-import { createTheme, Theme, ThemeProvider } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material";
 import React, { useEffect } from "react";
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 export const ColorModeContext = createContext<ColorModeContextType>(
   {} as ColorModeContextType
@@ -44,11 +44,11 @@ export function ColorModeProvider({ children }: ColorModeProps) {
         palette: {
           mode: mode,
           primary: {
-            main: "#C43606"
+            main: "#C43606",
           },
           secondary: {
-            main: "#22A3AB"
-          }
+            main: "#22A3AB",
+          },
         },
       }),
     [mode]

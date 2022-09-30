@@ -9,16 +9,15 @@ import {
   useTheme,
 } from "@mui/material";
 import { useContext, useState } from "react";
-import logo from "../assets/HRW_Logo_cyan.svg";
+import logo from "../../assets/HRW_Logo_cyan.svg";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
-import { ColorModeContext } from "../contexts/ThemeContext";
-import CreateDeviceDialog from "./CreateDeviceDialog";
-import LoginDialog from "./LogInDialog";
-import DeleteDeviceDialog from "./DeleteDeviceDialog";
-import EditDeviceDialog from "./EditDeviceDialog";
+import { ColorModeContext } from "../../contexts/ThemeContext";
+import CreateDeviceDialog from "./dialogs/CreateDeviceDialog";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useUser } from "../contexts/UserContext";
+import { useUser } from "../../contexts/UserContext";
+import DeleteDeviceDialog from "./dialogs/DeleteDeviceDialog";
+import LoginDialog from "./dialogs/LogInDialog";
 
 const Header = () => {
   const theme = useTheme();
@@ -28,9 +27,7 @@ const Header = () => {
     useState<null | HTMLElement>(null);
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
-  const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-
   const profileMenuOpen = Boolean(profileMenuAnchorEl);
 
   const handleProfileMenuClick = (
@@ -64,7 +61,7 @@ const Header = () => {
     <Box>
       <AppBar position="static">
         <Toolbar>
-          <img width={200} height={75} src={logo}></img>
+          <img width={200} height={75} src={logo} alt="Hrw_Logo"></img>
           <Box sx={{ flex: 1 }}>
             <IconButton
               sx={{ ml: 1 }}
@@ -91,17 +88,6 @@ const Header = () => {
             >
               Create device
             </Button>
-            <Button
-              onClick={() => setOpenEditDialog(true)}
-              variant="contained"
-              color="secondary"
-            >
-              Edit device
-            </Button>
-            <EditDeviceDialog
-              open={openEditDialog}
-              onClose={() => setOpenEditDialog(false)}
-            />
             <Button
               onClick={() => setOpenDeleteDialog(true)}
               variant="contained"

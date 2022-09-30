@@ -1,6 +1,7 @@
 import {
   Box,
   Grid,
+  IconButton,
   LinearProgress,
   linearProgressClasses,
   styled,
@@ -8,17 +9,31 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useColorModeContext } from "../contexts/ThemeContext";
-import { Device, Marker } from "../types/types";
-import { liquidUnitConverter } from "../utils/unitConverter";
+import EditIcon from "@mui/icons-material/Edit";
+import EditDeviceDialog from "./EditDeviceDialog";
+import { useState } from "react";
+import { useColorModeContext } from "../../contexts/ThemeContext";
+import { Device } from "../../types/types";
+import { liquidUnitConverter } from "../../utils/unitConverter";
+import { useUser } from "../../contexts/UserContext";
 
 export interface ICustomMarker {
   device: Device;
 }
 
-const CustomMarker = (props: ICustomMarker) => {
+const DeviceMarker = (props: ICustomMarker) => {
   const theme = useTheme();
+  const { signedIn } = useUser();
   const { mode } = useColorModeContext();
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+
+  const handleEditDialogOpen = () => {
+    setOpenEditDialog(true);
+  };
+
+  const handleEditDialogClose = () => {
+    setOpenEditDialog(false);
+  };
 
   const BatteryLevelBar = styled(LinearProgress)(({ theme }) => ({
     margin: 0,
@@ -61,10 +76,23 @@ const CustomMarker = (props: ICustomMarker) => {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ width: 300 }}>
-        <Box mb={2}>
-          <ThemeTypography variant="h5">
+        <Box
+          mb={2}
+          columnGap="1em"
+          display="flex"
+          alignItems="center"
+          justifyContent="start"
+        >
+          <ThemeTypography display="inline" variant="h5">
             {props.device.deviceData.name}
           </ThemeTypography>
+          {signedIn ? (
+            <IconButton onClick={handleEditDialogOpen}>
+              <EditIcon />
+            </IconButton>
+          ) : (
+            <></>
+          )}
         </Box>
         {localStorage.getItem("token") ? (
           <Box mb={3}>
@@ -132,8 +160,13 @@ const CustomMarker = (props: ICustomMarker) => {
           Current: {liquidUnitConverter(props.device.waterSensorData.current)}
         </ThemeTypography>
       </Box>
+      <EditDeviceDialog
+        device={props.device}
+        open={openEditDialog}
+        onClose={handleEditDialogClose}
+      />
     </ThemeProvider>
   );
 };
 
-export default CustomMarker;
+export default DeviceMarker;

@@ -58,7 +58,14 @@ const createDevice = async (
         },
       }
     ).then((res) => {
-      return { success: res.ok, error: "" };
+      if (res.ok) {
+        return { success: true, error: "" };
+      } else {
+        return {
+          success: false,
+          error: "Something went wrong creating the device",
+        };
+      }
     });
   }
   return { success: false, error: "Not authenticated!" };
@@ -67,19 +74,24 @@ const createDevice = async (
 const editDevice = async (device: Device) => {
   let token = localStorage.getItem("token");
   if (token) {
-    return await fetch(`${API_URL}/admin`, {
+    return await fetch(`${API_URL}/admin/patch`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        device: device,
+        deviceData: device.deviceData,
+        locationData: device.locationData,
+        waterSensorData: device.waterSensorData,
       }),
     }).then((res) => {
       if (res.ok) {
         return { success: true, error: "" };
       } else {
-        return { success: false, error: "Something went wrong!" };
+        console.log(res);
+        console.log(res.json());
+        return { success: false, error: "Something went wrong" };
       }
     });
   }

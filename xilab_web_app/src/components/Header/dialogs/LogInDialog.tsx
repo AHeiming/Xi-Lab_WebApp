@@ -12,8 +12,7 @@ import {
 import { TransitionProps } from "@mui/material/transitions";
 import React from "react";
 import { useState } from "react";
-import { createToken } from "../api/authService";
-import { useUser } from "../contexts/UserContext";
+import { useUser } from "../../../contexts/UserContext";
 
 export interface ILoginDialogProps {
   open: boolean;

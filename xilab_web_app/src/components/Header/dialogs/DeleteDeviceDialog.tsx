@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import React, { useState } from "react";
-import ApiService from "../api/api";
-import { useDevices } from "../contexts/DeviceContext";
+import ApiService from "../../../api/api";
+import { useDevices } from "../../../contexts/DeviceContext";
 
 export interface IDeleteDeviceDialogProps {
   open: boolean;

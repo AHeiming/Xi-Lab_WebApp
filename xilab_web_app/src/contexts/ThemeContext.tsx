@@ -1,6 +1,6 @@
-import { createTheme, Theme, ThemeProvider } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material";
 import React, { useEffect } from "react";
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 export const ColorModeContext = createContext<ColorModeContextType>(
   {} as ColorModeContextType
@@ -22,11 +22,33 @@ export function ColorModeProvider({ children }: ColorModeProps) {
     setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
   }
 
+  useEffect(() => {
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (e) => setMode(e.matches ? "dark" : "light"));
+    setMode(
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light"
+    );
+    return () => {
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .removeEventListener("change", () => {});
+    };
+  }, []);
+
   const muiTheme = React.useMemo(
     () =>
       createTheme({
         palette: {
           mode: mode,
+          primary: {
+            main: "#C43606",
+          },
+          secondary: {
+            main: "#22A3AB",
+          },
         },
       }),
     [mode]

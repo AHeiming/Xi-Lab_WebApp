@@ -14,6 +14,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import React, { useState } from "react";
 import ApiService from "../../../api/api";
 import { useDevices } from "../../../contexts/DeviceContext";
+import InfoIcon from "@mui/icons-material/Info";
 
 export interface ICreateDeviceDialogProps {
   open: boolean;
@@ -40,14 +41,26 @@ const CreateDeviceDialog = (props: ICreateDeviceDialogProps) => {
   const handleSave = async () => {
     setShowError(false);
     if (validateFields()) {
-      var { success, error } = await ApiService.createDevice(
+      var { success, error, file } = await ApiService.createDevice(
         name,
         minCapacity,
         maxCapacity
       );
       setErrorText(error);
       setShowError(!success);
+      if (file) {
+        const url = window.URL.createObjectURL(new Blob([file]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `main.ino`);
+
+        document.body.appendChild(link);
+        link.click();
+      }
       if (success) {
+        setName("");
+        setMinCapacity(0);
+        setMaxCapacity(0);
         refreshDevices();
         props.onClose();
       }
@@ -115,9 +128,16 @@ const CreateDeviceDialog = (props: ICreateDeviceDialogProps) => {
               endAdornment: <InputAdornment position="end">ml</InputAdornment>,
             }}
           />
-          <Typography display={showError ? "block" : "none"} color="error">
-            {errorText}
-          </Typography>
+          <Box display="flex" alignItems="center" columnGap="1em">
+            <InfoIcon />
+            <Typography display="inline">
+              If a device is created a file "main.ino" will be returned. The
+              code inside needs to be written to the new microcontroller.
+            </Typography>
+            <Typography display={showError ? "block" : "none"} color="error">
+              {errorText}
+            </Typography>
+          </Box>
         </Box>
       </DialogContent>
       <DialogActions>

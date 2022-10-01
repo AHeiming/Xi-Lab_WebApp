@@ -39,6 +39,7 @@ const DeleteDeviceDialog = (props: IDeleteDeviceDialogProps) => {
       setShowError(true);
       setErrorText(error);
     } else {
+      setUuid("");
       setShowError(false);
       refreshDevices();
       props.onClose();
@@ -58,6 +59,7 @@ const DeleteDeviceDialog = (props: IDeleteDeviceDialogProps) => {
       <DialogContent>
         <TextField
           sx={{ mt: 1, width: "100%" }}
+          value={uuid}
           onChange={(e) => setUuid(e.target.value)}
           required
           placeholder="eg. 316c5c8a-ba53-4911-9f61-171d49ec27ac"

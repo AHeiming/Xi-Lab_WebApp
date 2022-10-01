@@ -57,18 +57,25 @@ const createDevice = async (
           Authorization: `Bearer ${token}`,
         },
       }
-    ).then((res) => {
-      if (res.ok) {
-        return { success: true, error: "" };
-      } else {
-        return {
-          success: false,
-          error: "Something went wrong creating the device",
-        };
-      }
-    });
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.blob();
+        } else {
+          return Promise.reject({
+            success: false,
+            error: "Something went wrong creating the device",
+            file: null,
+          });
+        }
+      })
+      .then((blob) => {
+        console.log("Blob!");
+        console.log(blob);
+        return { success: true, error: "", file: blob };
+      });
   }
-  return { success: false, error: "Not authenticated!" };
+  return { success: false, error: "Not authenticated!", file: null };
 };
 
 const editDevice = async (device: Device) => {

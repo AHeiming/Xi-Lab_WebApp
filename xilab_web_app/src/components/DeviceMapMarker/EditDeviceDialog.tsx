@@ -58,6 +58,9 @@ const EditDeviceDialog = (props: IEditDeviceDialogProps) => {
       };
       let response = await ApiService.editDevice(editDevice);
       if (response.success) {
+        setName("");
+        setMinWaterCapacity(0);
+        setMaxWaterCapacity(0);
         props.onClose();
         refreshDevices();
       } else {
